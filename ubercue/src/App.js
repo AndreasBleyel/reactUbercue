@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import './App.css';
+//import SingleGrill from './SingleGrill';
 
 class App extends Component {
 
     constructor(props){
         super(props);
-        this.state = {grills : []};
+        this.state = {grills : [], grill : null};
         this.loadGrills = this.loadGrills.bind(this);
     }
 
@@ -19,16 +20,28 @@ class App extends Component {
             .then((data) => this.setState({grills: data}));
     }
 
+    loadGrill(grillId) {
+        fetch('http://localhost:3001/api/grills/' + grillId)
+            .then((response) => response.json())
+            .then((data) => this.setState({grill: data}));
+    }
+
     render() {
 
-       const { grills } = this.state;
+       const { grills , grill} = this.state;
 
         return (
+            <div>
             <ul>
                 {grills.map((grill) => (
-                <li key={grill.id} > {grill.name}</li>
+                    <li key={grill.id}>
+                        <a href="#" onClick={ (e) => this.loadGrill(grill.id) }> {grill.name} </a>
+                    </li>
                 ))}
             </ul>
+                {grill &&  <p> {grill.name} , {grill.lat} , {grill.long} </p>}
+
+            </div>
         )
     };
 }
