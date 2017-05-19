@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import './App.css';
+import GrillListPage from './GrillListPage';
 import SingleGrill from './SingleGrill';
+import {
+    Route
+} from 'react-router-dom'
 
 class App extends Component {
 
@@ -10,9 +14,6 @@ class App extends Component {
         this.loadGrills = this.loadGrills.bind(this);
     }
 
-    componentWillMount(){
-        this.loadGrills();
-    }
 
     loadGrills(){
         fetch('http://localhost:3001/api/grills')
@@ -28,18 +29,18 @@ class App extends Component {
 
     render() {
 
-       const { grills , grill} = this.state;
+        const childProps = {
+            grill: this.state.grill,
+            grills: this.state.grills,
+            loadGrills: this.loadGrills,
+            loadGrill: this.loadGrill
+        };
 
         return (
             <div>
-            <ul>
-                {grills.map((grill) => (
-                    <li key={grill.id}>
-                        <a href="#" onClick={ (e) => this.loadGrill(grill.id) }> {grill.name} </a>
-                    </li>
-                ))}
-            </ul>
-                {grill && <SingleGrill grill={grill} /> }
+                <h1>Willkommen</h1>
+                <Route exact path="/" component={GrillListPage} {...childProps} />
+                <Route path="/grill/:id" component={SingleGrill} {...childProps} />
 
             </div>
         )
