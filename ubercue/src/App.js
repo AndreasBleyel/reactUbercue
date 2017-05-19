@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-//import SingleGrill from './SingleGrill';
+import SingleGrill from './SingleGrill';
 
 class App extends Component {
 
@@ -39,7 +39,7 @@ class App extends Component {
                     </li>
                 ))}
             </ul>
-                {grill &&  <p> {grill.name} , {grill.lat} , {grill.long} </p>}
+                {grill && <SingleGrill grill={grill} /> }
 
             </div>
         )
